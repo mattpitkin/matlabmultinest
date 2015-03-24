@@ -285,8 +285,13 @@ while tol > tolerance || j <= Nlive
             % calculate optimal ellipsoids
             [Bs, mus, VEs, ns] = optimal_ellipsoids(livepoints, VS);
             K = length(VEs); % number of ellipsoids (subclusters)
+        end
 
-        else
+        if FS < h || isempty(VEs)
+            if isempty(VEs)
+                VEs = VEstmp; % revert to previous VEs value
+            end
+
             % simply rescale the bounding ellipsoids
             for k=1:K
                 scalefac = max([1 (exp(-(j+1)/Nlive)*ns(k)/Nlive)/VEs(k)]);
@@ -296,9 +301,10 @@ while tol > tolerance || j <= Nlive
                     Bs((k-1)*D+1:k*D,:) = Bs((k-1)*D+1:k*D,:)*scalefac^(2/D);
                     VEs(k) = scalefac*VEs(k);
                 end
-           end
-
+            end
         end
+
+        VEstmp = VEs;
 
         if DEBUG && D==2
            % plot 2-dimensionsal live points and bounding ellipses
