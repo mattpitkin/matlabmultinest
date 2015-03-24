@@ -55,7 +55,8 @@ temp_u1 = cell(max_attempt,1);
 temp_u2 = cell(max_attempt,1);
 temp_VE1 = zeros(max_attempt,1);
 temp_VE2 = zeros(max_attempt,1);
-FS = zeros(max_attempt,1);
+FS = inf;
+FSidx = 1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 numreassigned = [];
@@ -74,7 +75,7 @@ while 1
     if flag1 || flag2
         if DEBUG; fprintf('CANT SPLIT!!\n'); end;
         nosplit = 1;
-        break
+        return;
     end
 
     % construct temporary arrays and cell arrays containing results for
@@ -83,7 +84,11 @@ while 1
     temp_u2{counter} = u2;
     temp_VE1(counter) = VE1;
     temp_VE2(counter) = VE2;
-    FS(counter)=(VE1+VE2)/VS;
+
+    if (VE1+VE2)/VS < FS
+        FS = (VE1+VE2)/VS;
+        FSidx = counter;
+    end
 
     % DEBUG print statement
     if DEBUG
@@ -165,14 +170,12 @@ while 1
 
 end
 
-% find minimum F(S) and return
-[minFS, idx] = min(FS);
-u1 = temp_u1{idx};
-u2 = temp_u2{idx};
-VE1 = temp_VE1(idx);
-VE2 = temp_VE2(idx);
+u1 = temp_u1{FSidx};
+u2 = temp_u2{FSidx};
+VE1 = temp_VE1(FSidx);
+VE2 = temp_VE2(FSidx);
 
-if DEBUG; fprintf('SPLIT ELLIPSOID: min F(S) = %f\n', minFS); end;
+if DEBUG; fprintf('SPLIT ELLIPSOID: min F(S) = %f\n', FS); end;
 
 return
 
