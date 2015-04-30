@@ -6,4 +6,8 @@ This code can make use of either the MultiNest sampler of [Feroz, Hobson & Bridg
 
 Release versions of this code are also hosted on [CCPforge](https://ccpforge.cse.rl.ac.uk/gf/project/multinest/).
 
+### Analyses using Matlab MultiNest
+
+* [Coughlin _et al_](http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1404.4642), "Method for estimation of gravitational-wave transient model parameters in frequency-time maps", _CQG_, **31**, 165012 (2014)
+
 Copyright &copy; 2012 Matthew Pitkin & Joseph Romano
