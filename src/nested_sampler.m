@@ -65,6 +65,8 @@ function [logZ, nest_samples, post_samples] = nested_sampler(data, ...
 %   propscale - the scaling factor for the covariance matrix used by the
 %               'covfrac' Students-t distribution proposal. This defaults
 %               to 0.1.
+%   totsamples - if the tolerance is set to zero then this can be used to
+%                set the total number of samples to be collected,
 %
 % E.g. if covfrac = 10 then diffevfrac = 5 the Students-t proposal will be
 % used 2/3s of the time and differential evolution 1/3. The default is to
@@ -83,6 +85,7 @@ diffevfrac = 0;
 walkfrac = 25;
 stretchfrac = 75;
 propscale = 0.1;
+totsamples = inf;
 
 % get optional input arguments
 optargin = size(varargin,2);
@@ -125,6 +128,10 @@ if optargin > 1
         elseif strcmpi(varargin{i}, 'propscale') % the scaling factor for the covariance matrix
             if varargin{i+1} > 0
                propscale = varargin{i+1};
+            end
+        elseif strcmpi(varargin{i}, 'totsamples') % set the total number of samples to collect
+            if varargin{i+1} > 0 && tolerance == 0 % only do this if tolerance is zero
+               totsamples = varargin{i+1};
             end
         end
     end
@@ -218,7 +225,7 @@ j = 1;
 %figure;
 
 % MAIN LOOP
-while tol > tolerance || j <= Nlive
+while (tol >= tolerance || j <= Nlive) && j <= totsamples
 
     % expected value of true remaining prior volume X
     VS = exp(-j/Nlive);
