@@ -13,9 +13,9 @@ if isinf(logx) && isinf(logy)
 end
 
 if logx > logy
-    logz = logx+log(1.+exp(logy-logx));
+    logz = logx+log1p(exp(logy-logx));
 else
-    logz = logy+log(1.+exp(logx-logy));
+    logz = logy+log1p(exp(logx-logy));
 end
 
 return
