@@ -151,24 +151,8 @@ else
     extraparvals = [];
 end
 
-% draw the set of initial live points from the prior
-livepoints = zeros(Nlive, D);
-
-for i=1:D
-    priortype = prior{i,2};
-    p3 = prior{i,3};
-    p4 = prior{i,4};
-
-    % currently only handles uniform or Gaussian priors
-    if strcmp(priortype, 'uniform')
-        livepoints(:,i) = p3 + (p4-p3)*rand(Nlive,1);
-    elseif strcmp(priortype, 'gaussian')
-        livepoints(:,i) = p3 + p4*randn(Nlive,1);
-    elseif strcmp(priortype, 'jeffreys')
-        % uniform in log space
-        livepoints(:,i) = 10.^(log10(p3) + (log10(p4)-log10(p3))*rand(Nlive,1));
-    end
-end
+% draw the set of initial live points from the unit hypercube
+livepoints = rand(Nlive, D);
 
 % check whether likelihood is a function handle, or a string that is a
 % function name
@@ -184,14 +168,9 @@ end
 logL = zeros(Nlive,1);
 
 for i=1:Nlive
-    parvals = cat(1, num2cell(livepoints(i,:)'), extraparvals);
+    # rescale points for calculating likelihood
+    parvals = cat(1, num2cell(rescale_parameters(prior, livepoints(i,:))), extraparvals);
     logL(i) = feval(flike, data, model, parnames, parvals);
-end
-
-% now scale the parameters, so that uniform parameters range from 0->1,
-% and Gaussian parameters have a mean of zero and unit standard deviation
-for i=1:Nlive
-    livepoints(i,:) = scale_parameters(prior, livepoints(i,:));
 end
 
 % initial tolerance
