@@ -19,7 +19,7 @@ for i=1:lp
     if strcmp(priortype, 'uniform')
         scaled(i) = params(i)*(p4 - p3) + p3;
     elseif strcmp(priortype, 'gaussian')
-        # use inverse transform sampling
+        % use inverse transform sampling
         scaled(i) = p3 + p4*sqrt(2)*erfinv(2.*params(i) - 1.);
     elseif strcmp(priortype, 'jeffreys')
         scaled(i) = 10^(params(i)*(log10(p4) - log10(p3)) + log10(p3));

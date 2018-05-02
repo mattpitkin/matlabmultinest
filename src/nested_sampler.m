@@ -168,7 +168,7 @@ end
 logL = zeros(Nlive,1);
 
 for i=1:Nlive
-    # rescale points for calculating likelihood
+    % rescale points for calculating likelihood
     parvals = cat(1, num2cell(rescale_parameters(prior, livepoints(i,:))), extraparvals);
     logL(i) = feval(flike, data, model, parnames, parvals);
 end
