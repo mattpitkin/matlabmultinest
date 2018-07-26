@@ -11,3 +11,5 @@ Release versions of this code are also hosted on [CCPforge](https://ccpforge.cse
 * [Coughlin _et al_](http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1404.4642), "Method for estimation of gravitational-wave transient model parameters in frequency-time maps", _CQG_, **31**, 165012 (2014)
 
 Copyright &copy; 2012 Matthew Pitkin & Joseph Romano
+
+[![DOI](https://zenodo.org/badge/32762005.svg)](https://zenodo.org/badge/latestdoi/32762005)
