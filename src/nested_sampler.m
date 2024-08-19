@@ -151,6 +151,19 @@ else
     extraparvals = [];
 end
 
+% check certain values are positive integers or zero
+if mod(Nmcmc, 1) ~= 0 | Nmcmc < 0
+    error('Error... Nmcmc must be an integer >= 0')
+end
+
+if mod(Nsloppy, 1) ~= 0 | Nsloppy < 0
+    error('Error... Nsloppy must be an integer >= 0')
+end
+
+if mod(Nlive, 1) ~= 0 | Nlive < 0
+    error('Error... Nlive must be an integer >= 0')
+end
+
 % draw the set of initial live points from the unit hypercube
 livepoints = rand(Nlive, D);
 
